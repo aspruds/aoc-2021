@@ -5,7 +5,7 @@ namespace Tests\Unit;
 use App\Services\Day1Service;
 use PHPUnit\Framework\TestCase;
 
-class ExampleTest extends TestCase
+class Day1ATest extends TestCase
 {
     use CsvReader;
 
@@ -14,11 +14,6 @@ class ExampleTest extends TestCase
     public function setUp():void {
         parent::setUp();
         $this->day1Service = new Day1Service();
-    }
-
-    private function data_provider(): CsvFileIterator
-    {
-        return new CsvFileIterator('day1.csv');
     }
 
     public function test_one_increase(): void
