@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-class Day2Service
+class Day2ServiceA
 {
     public function course(array $input): int
     {
