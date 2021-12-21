@@ -2,28 +2,36 @@
 
 namespace App\Services;
 
+use App\Models\Day2\Command;
+use App\Models\Day2\State;
+use JetBrains\PhpStorm\Pure;
+
 class Day2ServiceB
 {
     public function course(array $input): int
     {
-        $horizontal = 0;
-        $depth = 0;
-        $aim = 0;
-
-        $commands = array_map(fn($i) => explode(" ", $i), $input);
+        $state = new State(0, 0, 0);
+        $commands = array_map(array($this, 'createCommand'), $input);
         foreach($commands as $command) {
-            list($horizontal, $depth, $aim) = $this->apply_command($command, $horizontal, $depth, $aim);
+            $state = $this->apply_command($command, $state);
         }
-        return $horizontal * $depth;
+        return $state->horizontal * $state->depth;
     }
 
-    private function apply_command($command, $horizontal, $depth, $aim): array
+    #[Pure] private function createCommand(string $line): Command
     {
-        list($move, $amount) = $command;
-        return match ($move) {
-            'forward' => array($horizontal + $amount, $depth + $aim * $amount, $aim),
-            'down' => array($horizontal, $depth, $aim + $amount),
-            'up' => array($horizontal, $depth, $aim - $amount)
+        $parts = explode(" ", $line);
+        return new Command($parts[0], $parts[1]);
+    }
+
+    private function apply_command(Command $command, $oldState): State
+    {
+        return match ($command->move) {
+            'forward' => $oldState
+                ->withHorizontal($oldState->horizontal + $command->amount)
+                ->withDepth($oldState->depth + $oldState->aim * $command->amount),
+            'down' => $oldState->withAim($oldState->aim + $command->amount),
+            'up' => $oldState->withAim($oldState->aim - $command->amount)
         };
     }
 }

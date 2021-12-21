@@ -33,7 +33,7 @@ class Day2BTest extends TestCase
     public function test_provided_increases(): void
     {
         $input = $this->read_csv('day2.csv');
-        $expected = 1698735;
+        $expected = 1594785890;
         $this->assertEquals($expected, $this->service->course($input));
     }
 }
