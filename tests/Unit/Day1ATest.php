@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class Day1ATest extends TestCase
 {
-    use CsvReader;
+    use TextReader;
 
     protected Day1Service $day1Service;
 
@@ -25,7 +25,7 @@ class Day1ATest extends TestCase
 
     public function test_provided_increases(): void
     {
-        $input = $this->read_csv('day1.csv');
+        $input = $this->read_lines('day1.txt');
         $expected = 1184;
         $this->assertEquals($expected, $this->day1Service->increases($input));
     }
