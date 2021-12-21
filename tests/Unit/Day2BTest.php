@@ -18,14 +18,7 @@ class Day2BTest extends TestCase
 
     public function test_one_course(): void
     {
-        $input = array(
-            "forward 5",
-            "down 5",
-            "forward 8",
-            "up 3",
-            "down 8",
-            "forward 2"
-        );
+        $input = $this->read_lines('day2-sample.txt');
         $expected = 900;
         $this->assertEquals($expected, $this->service->course($input));
     }
