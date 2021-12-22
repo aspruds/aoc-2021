@@ -2,10 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Day2\Command;
-use App\Models\Day2\State;
-use JetBrains\PhpStorm\Pure;
-
 class Day3ServiceA
 {
     public function power_consumption(array $input): int
