@@ -76,7 +76,7 @@ class Day3ServiceA
         for($i=0; $i < $bit_length; $i++) {
             $most_common_bits = $bit_counter_function($filtered);
             $bit = $most_common_bits[$i];
-            $filtered = array_filter($filtered, fn($el) => substr($el, $i, 1) == $bit);
+            $filtered = array_filter($filtered, fn($el) => $el[$i] == $bit);
             if(count($filtered) == 1) break;
         }
 
