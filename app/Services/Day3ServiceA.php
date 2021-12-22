@@ -20,8 +20,8 @@ class Day3ServiceA
         $bit_arrays = array_map('str_split', $input);
         $bit_arrays_transposed = array_map(null, ...$bit_arrays);
         $sums = array_map('array_sum', $bit_arrays_transposed);
-        $bits = array_map(fn($count) => $count > count($input) / 2 ? 1 : 0, $sums);
-        $gamma_rate_binary = implode("", $bits);
+        $most_common_bits = array_map(fn($count) => $count > count($input) / 2 ? 1 : 0, $sums);
+        $gamma_rate_binary = implode("", $most_common_bits);
         return bindec($gamma_rate_binary);
     }
 
