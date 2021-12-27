@@ -2,8 +2,8 @@
 
 namespace Tests\Unit;
 
-use App\Services\Day3ServiceA;
 use Exception;
+use App\Services\Day3ServiceA;
 use PHPUnit\Framework\TestCase;
 
 class Day3BTest extends TestCase
