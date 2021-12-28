@@ -11,44 +11,33 @@ class Day6ServiceA
 {
     public function fishAfter80Days(array $input): int
     {
-        $fish = explode(",", $input[0]);
-        for($i=0; $i < 80; $i++) {
-            $zeros = array_filter($fish, fn($el) => $el == 0);
-            $nextGen = array_map(function($el) {
-                if($el == 0) {
-                    return 6;
-                } else {
-                    return $el - 1;
-                }
-            }, $fish);
-            foreach($zeros as $zero) {
-                $nextGen[] = 8;
-            }
-            $fish = $nextGen;
-        }
-        return count($fish);
+        return $this->fishAfterDays($input, 80);
     }
 
     public function fishAfter256Days(array $input): int
     {
+        return $this->fishAfterDays($input, 256);
+    }
+
+    private function fishAfterDays(array $input, int $days): int
+    {
         $fish = explode(",", $input[0]);
-        print_r($fish);
-        for($i=0; $i < 80; $i++) {
-            print($i . "\n");
-            $zeros = array_filter($fish, fn($el) => $el == 0);
-            $nextGen = array_map(function($el) {
-                if($el == 0) {
-                    return 6;
-                } else {
-                    return $el - 1;
+        $counts = array_count_values($fish);
+        for($i=0; $i < $days; $i++) {
+            $newCounts = array();
+            for($key=1; $key < 9; $key++) {
+                $value = $counts[$key] ?? 0;
+                if($value > 0) {
+                    $newCounts[$key - 1] = $value;
                 }
-            }, $fish);
-            foreach($zeros as $zero) {
-                $nextGen[] = 8;
             }
-            $fish = $nextGen;
-            print_r($fish);
+            $zeros = $counts[0] ?? 0;
+            if($zeros > 0) {
+                $newCounts[8] = $zeros;
+                $newCounts[6] = ($newCounts[6] ?? 0) + $zeros;
+            }
+            $counts = $newCounts;
         }
-        return count($fish);
+        return array_sum($counts);
     }
 }
