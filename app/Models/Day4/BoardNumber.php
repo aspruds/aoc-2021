@@ -2,8 +2,6 @@
 
 namespace App\Models\Day4;
 
-use JetBrains\PhpStorm\Pure;
-
 class BoardNumber
 {
     private bool $marked;
