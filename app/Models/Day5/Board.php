@@ -27,7 +27,7 @@ class Board
         $maxY = max($line->from->y, $line->to->y);
         for ($x = $minX; $x < $maxX + 1; $x++) {
             for ($y = $minY; $y < $maxY + 1; $y++) {
-                $this->board[$y][$x] = $this->board[$y][$x] + 1;
+                $this->increment($x, $y);
             }
         }
     }
@@ -37,7 +37,7 @@ class Board
         $x = $line->from->x;
         $y = $line->from->y;
         while(true) {
-            $this->board[$y][$x] = $this->board[$y][$x] + 1;
+            $this->increment($x, $y);
 
             if($line->from->x < $line->to->x){
                 $x++;
@@ -57,6 +57,11 @@ class Board
         }
     }
 
+    private function increment($x, $y): void
+    {
+        $this->board[$y][$x] = isset($this->board[$y][$x]) ? $this->board[$y][$x] + 1 : 0;
+    }
+
     private function initializeBoard($lines) {
         $maxX = max(array_merge(...array_map(fn($line) => array($line->from->x, $line->to->x), $lines)));
         $maxY = max(array_merge(...array_map(fn($line) => array($line->from->y, $line->to->y), $lines)));
@@ -67,15 +72,15 @@ class Board
         }
     }
 
-    public function printBoard(): string
-    {
-        $lines = array_map(fn($line) => implode("", $line), $this->board);
-        return str_replace("0", ".", implode("\n", $lines));
-    }
-
     public function overlappingPoints(): int
     {
         $flatBoard = array_merge(...$this->board);
         return count(array_filter($flatBoard, fn($v) => $v > 1));
+    }
+
+    public function printBoard(): string
+    {
+        $lines = array_map(fn($line) => implode("", $line), $this->board);
+        return str_replace("0", ".", implode("\n", $lines));
     }
 }
