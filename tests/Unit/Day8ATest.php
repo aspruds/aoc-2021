@@ -2,58 +2,32 @@
 
 namespace Tests\Unit;
 
-use App\Services\Day7ServiceA;
+use App\Services\Day8ServiceA;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
-class Day7ATest extends TestCase
+class Day8ATest extends TestCase
 {
     use TextReader;
 
-    protected Day7ServiceA $service;
+    protected Day8ServiceA $service;
 
     public function setUp():void {
         parent::setUp();
-        $this->service = new Day7ServiceA();
+        $this->service = new Day8ServiceA();
     }
 
-    private function read($fileName): array
+    public function test_simple_numbers_to_sample(): void
     {
-        $input = $this->read_lines($fileName);
-        return explode(",", $input[0]);
+        $input = $this->read_lines('day8-sample.txt');
+        $expected = 26;
+        $this->assertEquals($expected, $this->service->simpleDigits($input));
     }
 
-    public function test_fuel_to_sample(): void
+    public function test_simple_numbers_to_input(): void
     {
-        $input = $this->read('day7-sample.txt');
-        $expected = 37;
-        $this->assertEquals($expected, $this->service->fuelPartA($input));
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function test_median_to_sample(): void
-    {
-        $input = $this->read('day7-sample.txt');
-        $expected = 2;
-        $this->assertEquals($expected, $this->service->median($input));
-    }
-
-    public function test_fuel_to_input(): void
-    {
-        $input = $this->read('day7.txt');
-        $expected = 345035;
-        $this->assertEquals($expected, $this->service->fuelPartA($input));
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function test_median_to_input(): void
-    {
-        $input = $this->read('day7.txt');
-        $expected = 350;
-        $this->assertEquals($expected, $this->service->median($input));
+        $input = $this->read_lines('day8.txt');
+        $expected = 26;
+        $this->assertEquals($expected, $this->service->simpleDigits($input));
     }
 }
