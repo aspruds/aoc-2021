@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Exception;
-use JetBrains\PhpStorm\Pure;
 
 class Day8ServiceA
 {
@@ -16,17 +15,8 @@ class Day8ServiceA
         foreach ($input as $line) {
             $outputPart = explode(" | ", $line);
             $outputDigits = explode(" ", $outputPart[1]);
-            foreach($outputDigits as $outputDigit) {
-                if(strlen($outputDigit) == 2) {
-                    $simpleDigits++;
-                }
-                if(strlen($outputDigit) == 3) {
-                    $simpleDigits++;
-                }
-                if(strlen($outputDigit) == 4) {
-                    $simpleDigits++;
-                }
-                if(strlen($outputDigit) == 7) {
+            foreach ($outputDigits as $outputDigit) {
+                if (in_array(strlen($outputDigit), array(2, 3, 4, 7))) {
                     $simpleDigits++;
                 }
             }
@@ -58,17 +48,17 @@ class Day8ServiceA
     function decodeDigits($outputDigits, $digitMapping): int
     {
         $result = array();
-        foreach($outputDigits as $outputDigit) {
-            for($i=0; $i < 10; $i++) {
+        foreach ($outputDigits as $outputDigit) {
+            for ($i = 0; $i < 10; $i++) {
                 $mapping = $digitMapping[$i];
-                if(strlen($outputDigit) == strlen($mapping)) {
+                if (strlen($outputDigit) == strlen($mapping)) {
                     if (strlen($this->different($outputDigit, $mapping)) == 0) {
                         $result[] = $i;
                     }
                 }
             }
         }
-        if(count($result) != 4) {
+        if (count($result) != 4) {
             throw new Exception("expecting 4 decoded digits!");
         }
         return (int)implode("", $result);
@@ -124,16 +114,19 @@ class Day8ServiceA
         );
     }
 
+    /**
+     * @throws Exception
+     */
     private function findCommon(array $candidates, string $b): string
     {
         $found = null;
         foreach ($candidates as $candidate) {
-            if(strlen($this->common($candidate, $b)) == strlen($b)) {
+            if (strlen($this->common($candidate, $b)) == strlen($b)) {
                 $found = $candidate;
                 break;
             }
         }
-        if($found == null) {
+        if ($found == null) {
             throw new Exception("$b not found in $candidates");
         }
         return $found;
@@ -159,21 +152,9 @@ class Day8ServiceA
     private function findByLength(array $observations, int $length): array
     {
         $result = array_filter($observations, fn($el) => strlen($el) === $length);
-        if(count($result) == 0) {
+        if (count($result) == 0) {
             throw new Exception("entry not found!");
         }
         return array_values($result);
-    }
-
-    function sortLetters($entry): string
-    {
-        $parts = str_split($entry);
-        sort($parts);
-        return implode("", $parts);
-    }
-
-    function sort($a,$b): int
-    {
-        return strlen($a) - strlen($b);
     }
 }
