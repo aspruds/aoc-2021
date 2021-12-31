@@ -49,7 +49,6 @@ class Day7ServiceA
      * @throws Exception
      */
     public function median(array $numbers) {
-        print(count($numbers));
         if(count($numbers) % 2 != 0) {
             throw new Exception("this implementation of median only works for even numbers");
         }
