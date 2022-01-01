@@ -6,7 +6,7 @@ class Day9Service
 {
     private array $visited;
 
-    public function lowPoints(array $input): array
+    private function lowPoints(array $input): array
     {
         $board = $this->board($input);
         $lowPoints = array();
@@ -51,7 +51,7 @@ class Day9Service
         foreach ($lowPoints as $lowPoint) {
             // ugly global variable
             $this->visited = array();
-            $basinSize = $this->basinSize($lowPoint[0], $lowPoint[1], $board, 0, 0);
+            $basinSize = $this->basinSize($lowPoint[0], $lowPoint[1], $board);
             $basinSizes[]=$basinSize;
         }
         sort($basinSizes);
@@ -59,7 +59,7 @@ class Day9Service
         return $basinSizes[0] * $basinSizes[1] * $basinSizes[2];
     }
 
-    public function basinSize(int $x, int $y, array $board, int $accumulatedCount, int $level): int
+    private function basinSize(int $x, int $y, array $board): int
     {
         // check if already visited
         foreach($this->visited as $el) {
@@ -80,11 +80,10 @@ class Day9Service
             return 0;
         }
 
-        $accumulatedCount++;
-        $up = $this->basinSize($x, $y - 1, $board, 0, $level + 1);
-        $down = $this->basinSize($x, $y + 1, $board, 0, $level + 1);
-        $left = $this->basinSize($x - 1, $y, $board, 0, $level + 1);
-        $right = $this->basinSize($x + 1, $y, $board, 0,$level + 1);
-        return $accumulatedCount + $up + $down + $left + $right;
+        $up = $this->basinSize($x, $y - 1, $board);
+        $down = $this->basinSize($x, $y + 1, $board);
+        $left = $this->basinSize($x - 1, $y, $board);
+        $right = $this->basinSize($x + 1, $y, $board);
+        return 1 + $up + $down + $left + $right;
     }
 }
