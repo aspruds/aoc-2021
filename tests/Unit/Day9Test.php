@@ -40,7 +40,7 @@ class Day9Test extends TestCase
     public function test_basin_total_to_input(): void
     {
         $input = $this->read_lines('day9.txt');
-        $expected = 1134;
+        $expected = 1050192;
         $this->assertEquals($expected, $this->service->basinTotal($input));
     }
 }
