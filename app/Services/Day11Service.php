@@ -15,7 +15,6 @@ class Day11Service
             list($board, $flashes) = $this->step($board);
             $totalFlashes = $totalFlashes + $flashes;
         }
-
         return $totalFlashes;
     }
 
@@ -25,13 +24,12 @@ class Day11Service
         $maxSteps = 1000;
 
         for($i=0; $i < $maxSteps; $i++) {
-            list($board, $flashes) = $this->step($board);
+            $board = $this->step($board)[0];
             $flatBoard = array_merge(...$board);
             if(array_sum($flatBoard) == 0) {
                 return $i + 1;
             }
         }
-
         return $maxSteps;
     }
 
@@ -44,8 +42,7 @@ class Day11Service
         while($this->shouldFlash($board, $flashes)) {
             $flashCandidates = $this->largerThan9($board);
             foreach ($flashCandidates as $flashCandidate) {
-                $x = $flashCandidate[0];
-                $y = $flashCandidate[1];
+                list($x, $y) = $flashCandidate;
                 if (!$this->flashed($flashes, $x, $y)) {
                     $flashes[] = $flashCandidate;
                     $board = $this->updateNeighbours($board, $x, $y);
@@ -54,8 +51,7 @@ class Day11Service
         }
 
         foreach($flashes as $flash) {
-            $x = $flash[0];
-            $y = $flash[1];
+            list($x, $y) = $flash;
             $board[$y][$x] = 0;
         }
         return array($board, count($flashes));
