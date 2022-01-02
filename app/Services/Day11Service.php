@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use Exception;
-
 class Day11Service
 {
     public function flashCount(array $input): int
@@ -58,37 +56,21 @@ class Day11Service
     }
 
     private function updateNeighbours(array $board, int $x, int $y): array {
-        // right
-        if(isset($board[$y][$x + 1])) {
-            $board[$y][$x + 1]++;
-        }
-        // left
-        if(isset($board[$y][$x - 1])) {
-            $board[$y][$x - 1]++;
-        }
-        // top
-        if(isset($board[$y - 1][$x])) {
-            $board[$y - 1][$x]++;
-        }
-        // down
-        if(isset($board[$y + 1][$x])) {
-            $board[$y + 1][$x]++;
-        }
-        // tl
-        if(isset($board[$y - 1][$x - 1])) {
-            $board[$y - 1][$x - 1]++;
-        }
-        // tr
-        if(isset($board[$y - 1][$x + 1])) {
-            $board[$y - 1][$x + 1]++;
-        }
-        // bl
-        if(isset($board[$y + 1][$x - 1])) {
-            $board[$y + 1][$x - 1]++;
-        }
-        // br
-        if(isset($board[$y + 1][$x + 1])) {
-            $board[$y + 1][$x + 1]++;
+        $shifts = [
+            [0, 1], // right
+            [0, -1], // left
+            [-1, 0], //top
+            [1, 0], // down
+            [-1, -1], // tl
+            [-1, 1], // tr
+            [1, -1], // bl
+            [1, 1], // br
+        ];
+        foreach ($shifts as $shift) {
+            list($deltaX, $deltaY) = $shift;
+            if(isset($board[$y + $deltaY][$x + $deltaX])) {
+                $board[$y + $deltaY][$x + $deltaX]++;
+            }
         }
         return $board;
     }
