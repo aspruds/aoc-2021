@@ -19,6 +19,22 @@ class Day11Service
         return $totalFlashes;
     }
 
+    public function flashCountSimultaneous(array $input): int
+    {
+        $board = $this->board($input);
+        $maxSteps = 1000;
+
+        for($i=0; $i < $maxSteps; $i++) {
+            list($board, $flashes) = $this->step($board);
+            $flatBoard = array_merge(...$board);
+            if(array_sum($flatBoard) == 0) {
+                return $i + 1;
+            }
+        }
+
+        return $maxSteps;
+    }
+
     private function step(array $board): array {
         $flashes = array();
 
