@@ -7,7 +7,7 @@ use JetBrains\PhpStorm\Pure;
 
 class Day12Service
 {
-    // mutable variable
+    // ugly class-level mutable variable
     private int $count = 0;
 
     public function smallCavePaths(array $input): int
@@ -62,7 +62,7 @@ class Day12Service
             return true;
         }
 
-        $visitedTwice = count(array_filter($discovered, fn($el) => $el > 1)) > 0;
+        $visitedTwice = array_sum($discovered) > count($discovered);
         if($visitedTwice) {
             return !array_key_exists($edge, $discovered);
         } else {
@@ -72,11 +72,6 @@ class Day12Service
 
     private function isSmallCave($name): bool
     {
-        if(strtolower($name) == $name) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return strtolower($name) == $name;
     }
 }
