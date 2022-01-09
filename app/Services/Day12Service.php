@@ -13,40 +13,22 @@ class Day12Service
     public function smallCavePaths(array $input): int
     {
         $caveSystem = new CaveSystem($input);
-        $this->smallPathSearch($caveSystem, 'start', array(), array());
+        $this->uniquePathSearch($caveSystem, 'start', array(), $this->canVisitSimple(...));
         return $this->count;
     }
 
     public function advancedSmallCavePaths(array $input): int
     {
         $caveSystem = new CaveSystem($input);
-        $this->advancedSmallPathSearch($caveSystem, 'start', array(), array(), 0);
+        $this->uniquePathSearch($caveSystem, 'start', array(), $this->canVisit(...));
         return $this->count;
     }
 
-    private function smallPathSearch(CaveSystem $caveSystem, string $currentNode, array $discovered, array $path): void {
-        $path[] = $currentNode;
-
-        if($this->isSmallCave($currentNode)) {
-            $discovered[] = $currentNode;
-        }
-
-        if($currentNode == 'end') {
-            $this->count++;
-        }
-
-        $edges = $caveSystem->getEdges();
-        if(isset($edges[$currentNode])) {
-            foreach ($edges[$currentNode] as $edge) {
-                if(!in_array($edge, $discovered)) {
-                    $this->smallPathSearch($caveSystem, $edge, $discovered, $path);
-                }
-            }
-        }
-    }
-
-    private function advancedSmallPathSearch(CaveSystem $caveSystem, string $currentNode, array $discovered, array $path, $level): void {
-        $path[] = $currentNode;
+    private function uniquePathSearch(
+        CaveSystem $caveSystem,
+        string $currentNode,
+        array $discovered,
+        $canVisit): void {
 
         if($this->isSmallCave($currentNode)) {
             $curr = $discovered[$currentNode] ?? 0;
@@ -58,13 +40,16 @@ class Day12Service
         }
 
         $edges = $caveSystem->getEdges();
-        if(isset($edges[$currentNode])) {
-            foreach ($edges[$currentNode] as $edge) {
-                if($this->canVisit($edge, $discovered)) {
-                    $this->advancedSmallPathSearch($caveSystem, $edge, $discovered, $path, $level++);
-                }
+        foreach ($edges[$currentNode] ?? array() as $edge) {
+            if($canVisit($edge, $discovered)) {
+                $this->uniquePathSearch($caveSystem, $edge, $discovered, $canVisit);
             }
         }
+    }
+
+    #[Pure] private function canVisitSimple(string $edge, array $discovered): bool
+    {
+        return !array_key_exists($edge, $discovered);
     }
 
     #[Pure] private function canVisit(string $edge, array $discovered): bool
