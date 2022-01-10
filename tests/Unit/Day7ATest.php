@@ -19,7 +19,7 @@ class Day7ATest extends TestCase
 
     private function read($fileName): array
     {
-        $input = $this->read_lines($fileName);
+        $input = $this->readLines($fileName);
         return explode(",", $input[0]);
     }
 

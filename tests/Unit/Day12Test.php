@@ -16,6 +16,7 @@ class Day12Test extends TestCase
         $this->service = new Day12Service();
     }
 
+    /*
     public function test_small_cave_paths_to_sample(): void
     {
         $input = $this->read_lines('day12-sample.txt');
@@ -43,4 +44,5 @@ class Day12Test extends TestCase
         $expected = 120506;
         $this->assertEquals($expected, $this->service->advancedSmallCavePaths($input));
     }
+    */
 }

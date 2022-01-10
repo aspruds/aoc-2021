@@ -18,14 +18,14 @@ class Day5ATest extends TestCase
 
     public function test_number_of_points_where_two_points_overlap_to_sample(): void
     {
-        $input = $this->read_lines('day5-sample.txt');
+        $input = $this->readLines('day5-sample.txt');
         $expected = 5;
         $this->assertEquals($expected, $this->service->numberOfPointsWhereTwoPointsOverlap($input));
     }
 
     public function test_number_of_points_where_two_points_overlap_to_input(): void
     {
-        $input = $this->read_lines('day5.txt');
+        $input = $this->readLines('day5.txt');
         $expected = 7085;
         $this->assertEquals($expected, $this->service->numberOfPointsWhereTwoPointsOverlap($input));
     }

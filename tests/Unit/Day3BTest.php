@@ -22,7 +22,7 @@ class Day3BTest extends TestCase
      */
     public function test_life_support_according_to_sample(): void
     {
-        $input = $this->read_lines('day3-sample.txt');
+        $input = $this->readLines('day3-sample.txt');
         $expected = 230;
         $this->assertEquals($expected, $this->service->life_support_rating($input));
     }
@@ -32,7 +32,7 @@ class Day3BTest extends TestCase
      */
     public function test_life_support_according_to_input(): void
     {
-        $input = $this->read_lines('day3.txt');
+        $input = $this->readLines('day3.txt');
         $expected = 4481199;
         $this->assertEquals($expected, $this->service->life_support_rating($input));
     }

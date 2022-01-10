@@ -18,14 +18,14 @@ class Day6ATest extends TestCase
 
     public function test_fish_to_sample(): void
     {
-        $input = $this->read_lines('day6-sample.txt');
+        $input = $this->readLines('day6-sample.txt');
         $expected = 5934;
         $this->assertEquals($expected, $this->service->fishAfter80Days($input));
     }
 
     public function test_fish_to_input(): void
     {
-        $input = $this->read_lines('day6.txt');
+        $input = $this->readLines('day6.txt');
         $expected = 355386;
         $this->assertEquals($expected, $this->service->fishAfter80Days($input));
     }

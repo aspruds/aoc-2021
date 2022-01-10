@@ -21,7 +21,7 @@ class Day4ATest extends TestCase
      */
     public function test_bingo_winning_score_to_sample(): void
     {
-        $input = $this->read_lines('day4-sample.txt');
+        $input = $this->readLines('day4-sample.txt');
         $expected = 4512;
         $this->assertEquals($expected, $this->service->firstBingoScore($input));
     }
@@ -31,7 +31,7 @@ class Day4ATest extends TestCase
      */
     public function test_bingo_winning_score_to_input(): void
     {
-        $input = $this->read_lines('day4.txt');
+        $input = $this->readLines('day4.txt');
         $expected = 23177;
         $this->assertEquals($expected, $this->service->firstBingoScore($input));
     }

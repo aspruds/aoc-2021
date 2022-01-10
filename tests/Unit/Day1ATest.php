@@ -25,7 +25,7 @@ class Day1ATest extends TestCase
 
     public function test_provided_increases(): void
     {
-        $input = $this->read_lines('day1.txt');
+        $input = $this->readLines('day1.txt');
         $expected = 1184;
         $this->assertEquals($expected, $this->day1Service->increases($input));
     }

@@ -18,14 +18,14 @@ class Day2ATest extends TestCase
 
     public function test_one_course(): void
     {
-        $input = $input = $this->read_lines('day2-sample.txt');
+        $input = $input = $this->readLines('day2-sample.txt');
         $expected = 150;
         $this->assertEquals($expected, $this->service->course($input));
     }
 
     public function test_provided_increases(): void
     {
-        $input = $this->read_lines('day2.txt');
+        $input = $this->readLines('day2.txt');
         $expected = 1698735;
         $this->assertEquals($expected, $this->service->course($input));
     }

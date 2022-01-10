@@ -25,7 +25,7 @@ class Day1Test extends TestCase
 
     public function test_provided_sliding_window(): void
     {
-        $input = $this->read_lines('day1.txt');
+        $input = $this->readLines('day1.txt');
         $expected = 1158;
         $this->assertEquals($expected, $this->day1Service->increases_sliding_window($input));
     }
