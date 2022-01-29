@@ -15,30 +15,39 @@ class Day14Service
         return $this->checksum($template);
     }
 
+    public function polymerTemplateChecksumFast(string $input): int
+    {
+        list($template, $replacementSpecs) = explode("\n\n", $input);
+        $replacements = $this->parseReplacements($replacementSpecs);
+        return 0;
+    }
+
     private function replace($template, $replacements): string
     {
         $output = [];
-        $first = null;
-        $second = null;
+        foreach ($this->pairs($template) as $pair) {
+            $first = $pair[0];
+            $replacement = $replacements[$pair] ?? "";
+            $output[] = $first . $replacement;
+        }
+        return implode("", $output);
+    }
+
+    private function pairs($template): array
+    {
+        $output = [];
         for ($i = 0; $i < strlen($template); $i++) {
             $first = $template[$i];
             $second = $template[$i + 1] ?? "";
-            $key = $first . $second;
-            if (isset($replacements[$key])) {
-                $output[] = $first . $replacements[$key];
-            } else {
-                $output[] = $first . $second;
-            }
+            $output[] = $first . $second;
         }
-        return implode("", $output);
+        return $output;
     }
 
     private function checksum($template): int
     {
         $frequencies = array_count_values(str_split($template));
         asort($frequencies);
-        //print_r($frequencies);
-
         $first = reset($frequencies);
         $last = end($frequencies);
         return $last - $first;
@@ -50,7 +59,6 @@ class Day14Service
         $replacements = array_map(fn($line) => explode(" -> ", $line), $lines);
         $updated = [];
         foreach($replacements as $replacement) {
-            $fromParts = str_split($replacement[0]);
             $updated[$replacement[0]] = $replacement[1];
         }
         return $updated;
