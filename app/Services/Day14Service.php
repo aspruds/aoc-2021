@@ -4,39 +4,36 @@ namespace App\Services;
 
 class Day14Service
 {
-    public function polymerTemplateChecksum(string $input): int
+    public function polymerTemplateChecksumFast(string $input, int $iterations): int
     {
         list($template, $replacementSpecs) = explode("\n\n", $input);
         $replacements = $this->parseReplacements($replacementSpecs);
 
-        for($n = 0; $n < 10; $n++) {
-            $template = $this->replace($template, $replacements);
-        }
-        return $this->checksum($template);
-    }
+        $pairCounts = array_count_values($this->pairs($template));
+        $frequencies = array_count_values(str_split($template));
 
-    public function polymerTemplateChecksumFast(string $input): int
-    {
-        list($template, $replacementSpecs) = explode("\n\n", $input);
-        $replacements = $this->parseReplacements($replacementSpecs);
-        return 0;
-    }
+        for($n = 0; $n < $iterations; $n++) {
+            $updatedCounts = [];
+            foreach($pairCounts as $key => $count) {
+                $replacement = $replacements[$key];
 
-    private function replace($template, $replacements): string
-    {
-        $output = [];
-        foreach ($this->pairs($template) as $pair) {
-            $first = $pair[0];
-            $replacement = $replacements[$pair] ?? "";
-            $output[] = $first . $replacement;
+                $firstReplacement = $key[0] . $replacement;
+                $updatedCounts[$firstReplacement] = ($updatedCounts[$firstReplacement] ?? 0) + $count;
+
+                $secondReplacement = $replacement . $key[1];
+                $updatedCounts[$secondReplacement] = ($updatedCounts[$secondReplacement] ?? 0) + $count;
+
+                $frequencies[$replacement] = ($frequencies[$replacement] ?? 0) + $count;
+            }
+            $pairCounts = $updatedCounts;
         }
-        return implode("", $output);
+        return $this->checksumFromFrequencies($frequencies);
     }
 
     private function pairs($template): array
     {
         $output = [];
-        for ($i = 0; $i < strlen($template); $i++) {
+        for ($i = 0; $i < strlen($template) - 1; $i++) {
             $first = $template[$i];
             $second = $template[$i + 1] ?? "";
             $output[] = $first . $second;
@@ -44,9 +41,7 @@ class Day14Service
         return $output;
     }
 
-    private function checksum($template): int
-    {
-        $frequencies = array_count_values(str_split($template));
+    private function checksumFromFrequencies($frequencies): int {
         asort($frequencies);
         $first = reset($frequencies);
         $last = end($frequencies);
